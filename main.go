@@ -7,21 +7,22 @@ import (
 )
 
 type User struct {
-	name      string
-	age       uint16
-	money     int16
-	avgGrades float64
-	happiness float64
+	Name      string
+	Age       uint16
+	Money     int16
+	AvgGrades float64
+	Happiness float64
+	Hobbies   []string
 }
 
 func (u User) getAllInfo() string {
 	return fmt.Sprintf(
 		"Position: %s, \n Name is: %s, \n Age is %d,\n balance: %d",
-		"CEO", u.name, u.age, u.money)
+		"CEO", u.Name, u.Age, u.Money)
 }
 
 func (u *User) setName(name string) {
-	u.name = name
+	u.Name = name
 }
 
 func homePage(page http.ResponseWriter, r *http.Request) {
@@ -29,7 +30,7 @@ func homePage(page http.ResponseWriter, r *http.Request) {
 }
 
 func contactsPage(page http.ResponseWriter, r *http.Request) {
-	bob := User{name: "Bob", age: 20, money: 100, avgGrades: 4.3, happiness: 1.3}
+	bob := User{"Bob", 20, 100, 4.3, 1.3, []string{"Football", "Programming"}}
 	// bob.setName("Alex")
 	// fmt.Fprintf(page, "Here is our contacts: \n"+bob.getAllInfo())
 	tmpl, _ := template.ParseFiles("templates/home.html")
@@ -38,7 +39,7 @@ func contactsPage(page http.ResponseWriter, r *http.Request) {
 
 func makeRequest() {
 	http.HandleFunc("/", homePage)
-	http.HandleFunc("/contacts", contactsPage)
+	http.HandleFunc("/contacts/", contactsPage)
 	http.ListenAndServe(":8080", nil)
 }
 
