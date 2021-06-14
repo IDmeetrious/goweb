@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
 )
 
@@ -28,10 +29,11 @@ func homePage(page http.ResponseWriter, r *http.Request) {
 }
 
 func contactsPage(page http.ResponseWriter, r *http.Request) {
-	// bob := User{name: "Bob", age: 20, money: 100, avgGrades: 4.3, happiness: 1.3}
+	bob := User{name: "Bob", age: 20, money: 100, avgGrades: 4.3, happiness: 1.3}
 	// bob.setName("Alex")
 	// fmt.Fprintf(page, "Here is our contacts: \n"+bob.getAllInfo())
-	fmt.Fprintf(page, "<b> Main Text </b>")
+	tmpl, _ := template.ParseFiles("templates/home.html")
+	tmpl.Execute(page, bob)
 }
 
 func makeRequest() {
